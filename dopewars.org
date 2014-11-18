@@ -79,6 +79,12 @@ Needs some thought, might not be good as a separate item.
 ** Drugs
 - Drugs have a global base price and max/min price buffer
 - Each drug type has a price history for player to view, independent of area
+*** Attributes
+**** ID (key name)
+**** Name
+Display name, human readable
+**** Base price
+**** TODO Upper and lower price?
 ** Weapons
 - Weapons are really simple, have no use besides defending cop encounters
 - Fighting also simple, probaby not much past "click button to shoot"

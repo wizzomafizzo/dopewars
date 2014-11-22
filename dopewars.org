@@ -1,5 +1,11 @@
-* Tasks
+* Tasks [0/11]
 ** TODO World save/load methods
+** TODO Events
+** TODO World tests
+** TODO Drug name exception class
+** TODO Logging
+** TODO Move all special values to a common.config
+** TODO Separate world class to file
 ** TODO Print world
 ** TODO Console client?
 ** TODO Average drug price

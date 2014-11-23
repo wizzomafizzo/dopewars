@@ -1,11 +1,12 @@
-* Tasks [0/17]
+* Tasks [0/19]
 ** TODO World save/load methods
 ** TODO Events
 ** TODO World tests
 ** TODO toggle max button
 ** TODO drug prices
 mechanic should include some prices remaining the same between travel
-** kidneys
+** TODO kidneys
+** TODO lcd displays in finances screen
 ** TODO sort drug list tables before populate
 ** TODO transact dialog minimum
 ** TODO If sort on and buy, hilighted select changes

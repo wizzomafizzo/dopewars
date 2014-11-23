@@ -23,4 +23,6 @@ for t in templates:
                                     dopewars_dir,
                                     pyname))
 
-os.system("%s %s/dopewars.qrc > %s/dopewars_rc.py")
+os.system("%s %s/dopewars.qrc > %s/dopewars_rc.py" % (pyrcc5_exe,
+                                                      dopewars_dir,
+                                                      dopewars_dir))

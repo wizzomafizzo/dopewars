@@ -25,7 +25,7 @@ weapons = {
         "name": "Slingshot",
         "weapon_price": 100,
         "ammo_price": 1
-    }
+    },
     "handgun": {
         "name": "Handgun",
         "weapon_price": 1000,

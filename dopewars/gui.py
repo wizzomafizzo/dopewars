@@ -1,11 +1,12 @@
 # dope wars qt gui
 
 import sys, math
+
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QDialog
 
 import dopewars, common
-import qt_mainwindow, qt_transactdialog, qt_financesdialog
+import qt_main_window, qt_transact_dialog, qt_finances_dialog, qt_store_dialog
 
 class DrugWidget(QTableWidgetItem):
     """Extends drug table items to have name attribute."""
@@ -17,7 +18,7 @@ class TransactDialog():
     # TOD: just use parent
     def __init__(self, parent, kind, name, price, cash, free_space, owned):
         self.dialog = QDialog(parent)
-        self.ui = qt_transactdialog.Ui_Dialog()
+        self.ui = qt_transact_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
 
         self.ui.max_button.clicked.connect(self.max_button)
@@ -56,7 +57,85 @@ class TransactDialog():
 class FinancesDialog():
     def __init__(self, parent):
         self.dialog = QDialog(parent.window)
-        self.ui = qt_financesdialog.Ui_Dialog()
+        self.ui = qt_finances_dialog.Ui_Dialog()
+        self.ui.setupUi(self.dialog)
+
+        self.parent = parent
+        self.world = self.parent.world
+
+        self.ui.cash_spinbox.valueChanged.connect(self.update)
+        self.ui.bank_spinbox.valueChanged.connect(self.update)
+        self.ui.deposit_button.clicked.connect(self.deposit_button)
+        self.ui.withdraw_button.clicked.connect(self.withdraw_button)
+        self.ui.max_bank_button.clicked.connect(self.max_bank_button)
+        self.ui.max_cash_button.clicked.connect(self.max_cash_button)
+
+        self.update()
+
+        self.ui.cash_spinbox.setValue(self.world.player.cash)
+        self.ui.bank_spinbox.setValue(self.world.player.bank)
+
+    def update(self):
+        self.ui.cash_spinbox.setMaximum(self.world.player.cash)
+        self.ui.bank_spinbox.setMaximum(self.world.player.bank)
+
+        if self.world.player.cash == self.ui.cash_spinbox.value():
+            self.ui.max_cash_button.setEnabled(False)
+        else:
+            self.ui.max_cash_button.setEnabled(True)
+
+        if self.world.player.bank == self.ui.bank_spinbox.value():
+            self.ui.max_bank_button.setEnabled(False)
+        else:
+            self.ui.max_bank_button.setEnabled(True)
+
+        if self.ui.cash_spinbox.value() == 0:
+            self.ui.deposit_button.setEnabled(False)
+        else:
+            self.ui.deposit_button.setEnabled(True)
+
+        if self.ui.bank_spinbox.value() == 0:
+            self.ui.withdraw_button.setEnabled(False)
+        else:
+            self.ui.withdraw_button.setEnabled(True)
+
+        self.ui.loan_amount.setText("$%i" % self.world.player.loan)
+
+        if self.world.player.loan > 0:
+            self.ui.pay_loan_button.setEnabled(True)
+            self.ui.loan_spinbox.setEnabled(False)
+            self.ui.take_loan_button.setEnabled(False)
+        else:
+            self.ui.pay_loan_button.setEnabled(False)
+            self.ui.loan_spinbox.setEnabled(True)
+            self.ui.take_loan_button.setEnabled(True)
+
+    def deposit_button(self):
+        amount = self.ui.cash_spinbox.value()
+        # TODO: make this world method
+        self.world.player.spend_cash(amount)
+        self.world.player.add_bank(amount)
+        self.update()
+        self.parent.update()
+
+    def withdraw_button(self):
+        amount = self.ui.bank_spinbox.value()
+        # TODO: make this world method
+        self.world.player.add_cash(amount)
+        self.world.player.remove_bank(amount)
+        self.update()
+        self.parent.update()
+
+    def max_bank_button(self):
+        self.ui.bank_spinbox.setValue(self.world.player.bank)
+
+    def max_cash_button(self):
+        self.ui.cash_spinbox.setValue(self.world.player.cash)
+
+class StoreDialog():
+    def __init__(self, parent):
+        self.dialog = QDialog(parent.window)
+        self.ui = qt_store_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
 
 class MainWindow():
@@ -64,13 +143,15 @@ class MainWindow():
         """Display the main dopewars window."""
         self.app = QApplication(sys.argv)
         self.window = QMainWindow()
-        self.ui = qt_mainwindow.Ui_MainWindow()
+        self.ui = qt_main_window.Ui_MainWindow()
         self.ui.setupUi(self.window)
 
         self.ui.buy_button.clicked.connect(self.buy_button)
         self.ui.sell_button.clicked.connect(self.sell_button)
         self.ui.dump_button.clicked.connect(self.dump_button)
+
         self.ui.finances_button.clicked.connect(self.finances_button)
+        self.ui.store_button.clicked.connect(self.store_button)
 
         self.ui.dealer_table.itemDoubleClicked.connect(self.buy_button)
         self.ui.trenchcoat_table.itemDoubleClicked.connect(self.sell_button)
@@ -99,6 +180,10 @@ class MainWindow():
     def finances_button(self):
         finances = FinancesDialog(self)
         finances.dialog.exec()
+
+    def store_button(self):
+        store = StoreDialog(self)
+        store.dialog.exec()
 
     def travel_to(self, index):
         self.world.travel_to(index)

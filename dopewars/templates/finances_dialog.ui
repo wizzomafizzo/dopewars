@@ -36,7 +36,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="cash_label">
         <property name="minimumSize">
          <size>
           <width>30</width>
@@ -48,6 +48,9 @@
           <width>30</width>
           <height>30</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Cash</string>
         </property>
         <property name="text">
          <string/>
@@ -61,22 +64,34 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QSpinBox" name="cash_spinbox">
         <property name="minimumSize">
          <size>
           <width>100</width>
           <height>0</height>
          </size>
         </property>
+        <property name="prefix">
+         <string>$</string>
+        </property>
+        <property name="maximum">
+         <number>1000000</number>
+        </property>
+        <property name="singleStep">
+         <number>1000</number>
+        </property>
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="max_cash_button">
         <property name="maximumSize">
          <size>
           <width>30</width>
           <height>29</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Max Cash Amount</string>
         </property>
         <property name="text">
          <string/>
@@ -88,14 +103,17 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="deposit_button">
+        <property name="toolTip">
+         <string>Deposit To Bank</string>
+        </property>
         <property name="text">
          <string>Deposit</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="bank_label">
         <property name="minimumSize">
          <size>
           <width>30</width>
@@ -107,6 +125,9 @@
           <width>30</width>
           <height>30</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Bank</string>
         </property>
         <property name="text">
          <string/>
@@ -120,22 +141,34 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="bank_spinbox">
         <property name="minimumSize">
          <size>
           <width>100</width>
           <height>0</height>
          </size>
         </property>
+        <property name="prefix">
+         <string>$</string>
+        </property>
+        <property name="maximum">
+         <number>1000000</number>
+        </property>
+        <property name="singleStep">
+         <number>1000</number>
+        </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="max_bank_button">
         <property name="maximumSize">
          <size>
           <width>30</width>
           <height>29</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Max Bank Amount</string>
         </property>
         <property name="text">
          <string/>
@@ -147,7 +180,10 @@
        </widget>
       </item>
       <item row="1" column="3">
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="withdraw_button">
+        <property name="toolTip">
+         <string>Withdraw From Bank</string>
+        </property>
         <property name="text">
          <string>Withdraw</string>
         </property>
@@ -163,7 +199,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="loan_label">
         <property name="minimumSize">
          <size>
           <width>30</width>
@@ -176,6 +212,9 @@
           <height>30</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Loan</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -185,7 +224,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="loan_amount">
         <property name="text">
          <string>__LOAN__</string>
         </property>
@@ -195,9 +234,12 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="pay_loan_button">
+        <property name="toolTip">
+         <string>Pay Back Entire Loan</string>
+        </property>
         <property name="text">
-         <string>Pay Off</string>
+         <string>Pay Back</string>
         </property>
        </widget>
       </item>
@@ -218,16 +260,22 @@
        </spacer>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_4">
-        <property name="enabled">
-         <bool>false</bool>
+       <widget class="QSpinBox" name="loan_spinbox">
+        <property name="prefix">
+         <string>$</string>
+        </property>
+        <property name="maximum">
+         <number>1000000</number>
+        </property>
+        <property name="singleStep">
+         <number>1000</number>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QPushButton" name="pushButton_7">
-        <property name="enabled">
-         <bool>false</bool>
+       <widget class="QPushButton" name="take_loan_button">
+        <property name="toolTip">
+         <string>Take Out New Loan</string>
         </property>
         <property name="text">
          <string>Take Loan</string>

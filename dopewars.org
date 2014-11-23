@@ -1,8 +1,16 @@
-* Tasks [0/11]
+* Tasks [0/17]
 ** TODO World save/load methods
 ** TODO Events
 ** TODO World tests
+** TODO toggle max button
+** TODO drug prices
+mechanic should include some prices remaining the same between travel
+** kidneys
+** TODO sort drug list tables before populate
+** TODO transact dialog minimum
+** TODO If sort on and buy, hilighted select changes
 ** TODO Drug name exception class
+** TODO buy button check if can buy at all
 ** TODO Logging
 ** TODO Move all special values to a common.config
 ** TODO Separate world class to file

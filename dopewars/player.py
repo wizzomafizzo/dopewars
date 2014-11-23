@@ -9,15 +9,15 @@ class Player():
         self.health = [100, 100]  # current/max
 
         self.cash = 2000
-        self.loan = 2000
+        self.loan = 5500
         self.bank = 0
+
+        self.weapon = [None, 0]  # name/ammo
 
         self.trenchcoat = {
             "max": 100,
             "drugs": {}
         }
-
-        # TODO: weapons
 
     # prettu printing
     def print_trenchcoat(self):
@@ -60,6 +60,9 @@ class Player():
     def damage(self, amount):
         """Reduce player health by amount."""
         self.health[0] -= amount
+        if self.health[0] < 0:
+            self.health[0] = 0
+        return True
 
     def heal(self, amount):
         """Increase player health by amount."""
@@ -67,6 +70,7 @@ class Player():
         # don't heal more than max health
         if self.health[0] > self.health[1]:
             self.health[0] = self.health[1]
+        return True
 
     def is_alive(self):
         """Return True if player is alive, has more than 0 health."""
@@ -79,6 +83,7 @@ class Player():
     def add_cash(self, amount):
         """Give player amount of cash."""
         self.cash += amount
+        return True
 
     def spend_cash(self, amount):
         """If player has enough cash, deduct amount. False if not enough."""
@@ -139,10 +144,15 @@ class Player():
         else:
             return False
 
+    def dump_all_drugs(self):
+        self.trenchcoat["drugs"] = {}
+        return True
+
     # loans
     def add_loan(self, amount):
         """Add amount to player loan."""
         self.loan += amount
+        return True
 
     def remove_loan(self, amount):
         """Remove amount from player loan, False if too much."""
@@ -164,3 +174,26 @@ class Player():
             return True
         else:
             return False
+
+    # weapons
+    def set_weapon(self, name):
+        if name in common.weapons.keys():
+            self.weapon = [name, 0]
+            return True
+        else:
+            return False
+
+    def add_ammo(self, amount):
+        self.weapon[1] += 1
+        return True
+
+    def shoot_weapon(self):
+        if self.weapon[1] > 0:
+            self.weapon[1] -= 1
+            return True
+        else:
+            return False
+
+    def dump_weapon(self):
+        self.weapon = [None, 0]
+        return True

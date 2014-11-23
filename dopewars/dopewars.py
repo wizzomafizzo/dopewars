@@ -10,8 +10,9 @@ class World():
     def __init__(self):
         self.day = [1, 1]  # current/max
 
-        self.areas = common.areas
-        self.current_area = random.choice(common.areas)
+        self.world_name = common.areas[0]
+        self.areas = common.areas[1:]
+        self.current_area = random.choice(self.areas)
 
         self.events = []
 
@@ -29,6 +30,15 @@ class World():
 
     # TODO: load world
 
+    def next_turn(self):
+        self.day[0] += 1
+        self.new_dealer()
+        # TODO: process events
+
+    def travel_to(self, index):
+        self.current_area = self.areas[index]
+        self.next_turn()
+
     # dealer
     def new_dealer(self):
         self.dealer = {}
@@ -41,6 +51,17 @@ class World():
         if name in self.dealer.keys():
             price = self.dealer[name]
             return self.player.buy_drug(name, price, count)
+        else:
+            return False
+
+    def sell_to_dealer(self, name, count=1):
+        if name in self.dealer.keys() and name in self.player.trenchcoat["drugs"].keys():
+            price = self.dealer[name]
+            if self.player.remove_drug(name, count):
+                self.player.add_cash(count * price)
+                return True
+            else:
+                return False
         else:
             return False
 

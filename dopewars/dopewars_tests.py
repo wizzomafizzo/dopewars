@@ -89,8 +89,24 @@ class TestPlayer(unittest.TestCase):
 
 class TestWorld(unittest.TestCase):
     def setUp(self):
-        world = World("Test Dude")
+        self.world = World()
 
-    # TODO: world setup/load/save
+    def test_setup(self):
+        self.setUp()
+        self.assertEqual(self.world.day, [1,1])
+        self.assertEqual(self.world.areas, common.areas)
+        self.assertTrue(isinstance(self.world.current_area, str))
+        self.assertEqual(self.world.events, [])
+        self.assertEqual(self.world.player, None)
+        self.assertEqual(self.world.dealer, None)
+
+    def test_new(self):
+        self.setUp()
+        self.world.new_world("Test Guy")
+        self.assertEqual(self.world.day, [1,common.config["max_days"]])
+        self.assertEqual(self.world.player.name, "Test Guy")
+        self.world.new_world("Test Guy", 100)
+        self.assertEqual(self.world.day, [1,100])
+
     # TODO: dealer
     # TODO: events

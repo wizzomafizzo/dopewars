@@ -1,6 +1,7 @@
-* Tasks [0/19]
+* Tasks [0/20]
 ** TODO World save/load methods
 ** TODO Events
+** TODO new player dialog
 ** TODO World tests
 ** TODO toggle max button
 ** TODO drug prices

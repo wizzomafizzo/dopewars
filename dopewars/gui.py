@@ -1,12 +1,21 @@
 # dope wars qt gui
 
-import sys, math
+import sys
+import math
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QDialog
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtWidgets import QDialog
 
-import dopewars, common
-import qt_main_window, qt_transact_dialog, qt_finances_dialog, qt_store_dialog
+import common
+import dopewars
+import qt_main_window
+import qt_transact_dialog
+import qt_finances_dialog
+import qt_store_dialog
+
 
 class DrugWidget(QTableWidgetItem):
     """Extends drug table items to have name attribute."""
@@ -14,47 +23,70 @@ class DrugWidget(QTableWidgetItem):
         self.name = name
         QTableWidgetItem.__init__(self, text)
 
+
 class TransactDialog():
-    # TOD: just use parent
-    def __init__(self, parent, kind, name, price, cash, free_space, owned):
-        self.dialog = QDialog(parent)
+    """Dialog to specify amount for buy, sell and dump.
+    Shows some info about transaction depending on kind."""
+    def __init__(self, parent, kind):
+        self.dialog = QDialog(parent.window)
         self.ui = qt_transact_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
 
-        self.ui.max_button.clicked.connect(self.max_button)
-        self.ui.amount_spinbox.valueChanged.connect(self.update_total)
-
-        self.kind = kind
-        self.amount = 1
+        self.amount = 1  # final value checked on accept
         self.max_amount = 1
-        self.price = price
-        self.owned = owned
-
-        self.update_total()
-
-        self.dialog.setWindowTitle("%s %s" % (kind, name))
+        self.kind = kind
 
         if kind == "Buy":
-            self.max_amount = math.floor(cash / price)
-            if self.max_amount > free_space:
-                self.max_amount = free_space
+            self.name = parent.ui.dealer_table.currentItem().name
         else:
-            self.max_amount = owned
+            self.name = parent.ui.trenchcoat_table.currentItem().name
+
+        max_drugs = parent.world.player.trenchcoat["max"]
+        self.free_space = max_drugs - parent.world.player.total_drugs()
+
+        self.price = parent.world.dealer[self.name]
+        if kind != "Buy":
+            trenchcoat = parent.world.player.trenchcoat["drugs"]
+            self.owned = trenchcoat[self.name]["count"]
+
+        pretty_name = common.drugs[self.name]["name"]
+        self.dialog.setWindowTitle("%s %s" % (kind, pretty_name))
+
+        cash = parent.world.player.cash
+        if kind == "Buy":
+            self.max_amount = math.floor(cash / self.price)
+            if self.max_amount > self.free_space:
+                self.max_amount = self.free_space
+        else:
+            self.max_amount = self.owned
+
+        self.ui.max_button.clicked.connect(self.max_button)
+        self.ui.amount_spinbox.valueChanged.connect(self.update)
 
         self.ui.amount_spinbox.setMaximum(self.max_amount)
         self.ui.amount_spinbox.setValue(self.max_amount)
 
+        self.update()
+
     def max_button(self):
         self.ui.amount_spinbox.setValue(self.max_amount)
 
-    def update_total(self):
+    def update(self):
         self.amount = self.ui.amount_spinbox.value()
+
+        if self.amount == self.max_amount:
+            self.ui.max_button.setEnabled(False)
+        else:
+            self.ui.max_button.setEnabled(True)
+
         if self.kind == "Dump":
             self.ui.total_label.setText("%i left" % (self.owned - self.amount))
         else:
             self.ui.total_label.setText("$%i total" % (self.amount * self.price))
 
+
 class FinancesDialog():
+    """Dialog for managing bank account and loans."""
     def __init__(self, parent):
         self.dialog = QDialog(parent.window)
         self.ui = qt_finances_dialog.Ui_Dialog()
@@ -79,6 +111,9 @@ class FinancesDialog():
         self.ui.cash_spinbox.setMaximum(self.world.player.cash)
         self.ui.bank_spinbox.setMaximum(self.world.player.bank)
 
+        self.ui.loan_amount.setText("$%i" % self.world.player.loan)
+
+        # toggle max buttons
         if self.world.player.cash == self.ui.cash_spinbox.value():
             self.ui.max_cash_button.setEnabled(False)
         else:
@@ -89,6 +124,7 @@ class FinancesDialog():
         else:
             self.ui.max_bank_button.setEnabled(True)
 
+        # toggle bank and cash spinboxes
         if self.ui.cash_spinbox.value() == 0:
             self.ui.deposit_button.setEnabled(False)
         else:
@@ -99,8 +135,7 @@ class FinancesDialog():
         else:
             self.ui.withdraw_button.setEnabled(True)
 
-        self.ui.loan_amount.setText("$%i" % self.world.player.loan)
-
+        # toggle loan buttons and spinbox
         if self.world.player.loan > 0:
             self.ui.pay_loan_button.setEnabled(True)
             self.ui.loan_spinbox.setEnabled(False)
@@ -111,18 +146,12 @@ class FinancesDialog():
             self.ui.take_loan_button.setEnabled(True)
 
     def deposit_button(self):
-        amount = self.ui.cash_spinbox.value()
-        # TODO: make this world method
-        self.world.player.spend_cash(amount)
-        self.world.player.add_bank(amount)
+        self.world.deposit_bank(self.ui.cash_spinbox.value())
         self.update()
         self.parent.update()
 
     def withdraw_button(self):
-        amount = self.ui.bank_spinbox.value()
-        # TODO: make this world method
-        self.world.player.add_cash(amount)
-        self.world.player.remove_bank(amount)
+        self.world.withdraw_bank(self.ui.bank_spinbox.value())
         self.update()
         self.parent.update()
 
@@ -132,11 +161,13 @@ class FinancesDialog():
     def max_cash_button(self):
         self.ui.cash_spinbox.setValue(self.world.player.cash)
 
+
 class StoreDialog():
     def __init__(self, parent):
         self.dialog = QDialog(parent.window)
         self.ui = qt_store_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
+
 
 class MainWindow():
     def __init__(self):
@@ -146,15 +177,15 @@ class MainWindow():
         self.ui = qt_main_window.Ui_MainWindow()
         self.ui.setupUi(self.window)
 
-        self.ui.buy_button.clicked.connect(self.buy_button)
-        self.ui.sell_button.clicked.connect(self.sell_button)
-        self.ui.dump_button.clicked.connect(self.dump_button)
+        # set up signals
+        self.ui.buy_button.clicked.connect(lambda: self.do_transact("Buy"))
+        self.ui.sell_button.clicked.connect(lambda: self.do_transact("Sell"))
+        self.ui.dump_button.clicked.connect(lambda: self.do_transact("Dump"))
+        self.ui.dealer_table.itemDoubleClicked.connect(lambda: self.do_transact("Buy"))
+        self.ui.trenchcoat_table.itemDoubleClicked.connect(lambda: self.do_transact("Sell"))
 
         self.ui.finances_button.clicked.connect(self.finances_button)
         self.ui.store_button.clicked.connect(self.store_button)
-
-        self.ui.dealer_table.itemDoubleClicked.connect(self.buy_button)
-        self.ui.trenchcoat_table.itemDoubleClicked.connect(self.sell_button)
 
         self.ui.dealer_table.itemSelectionChanged.connect(self.toggle_buttons)
         self.ui.trenchcoat_table.itemSelectionChanged.connect(self.toggle_buttons)
@@ -166,30 +197,38 @@ class MainWindow():
         self.ui.area_5_button.clicked.connect(lambda: self.travel_to(4))
         self.ui.area_6_button.clicked.connect(lambda: self.travel_to(5))
 
+        # set up world
         self.world = dopewars.World()
         self.world.new_world("Test Guy")
         self.world.player.add_drug("weed", 150, 25)
 
-        self.update()
         self.clear_action_log()
         self.log_action("A new game begins!")
 
+        self.update()
+
+        # let's do it!
         self.window.show()
         sys.exit(self.app.exec_())
 
     def finances_button(self):
+        """Display finances dialog."""
         finances = FinancesDialog(self)
         finances.dialog.exec()
 
     def store_button(self):
+        """Display store dialog."""
         store = StoreDialog(self)
         store.dialog.exec()
 
     def travel_to(self, index):
+        """Change current area and tick to next day."""
         self.world.travel_to(index)
+        self.world.clear_action_log()
         self.update()
 
     def update_areas(self):
+        """Set up and toggle area buttons."""
         self.ui.world_layout.setTitle(self.world.world_name)
         for i in range(6):
             getattr(self.ui, "area_%s_button" % (i+1)).setText(self.world.areas[i])
@@ -199,14 +238,19 @@ class MainWindow():
             getattr(self.ui, "area_%s_button" % (i+1)).setEnabled(on)
 
     def toggle_buttons(self):
+        """Toggle all action buttons."""
+        # sell button
         if self.ui.dealer_table.currentItem() is not None:
             self.ui.buy_button.setEnabled(True)
         else:
             self.ui.buy_button.setEnabled(False)
 
-        if self.ui.trenchcoat_table.currentItem() is not None:
+        # buy/dump buttons
+        selected_trenchcoat = self.ui.trenchcoat_table.currentItem()
+        if selected_trenchcoat is not None:
             self.ui.dump_button.setEnabled(True)
-            if self.ui.trenchcoat_table.currentItem().name in self.world.dealer.keys():
+            # dealer offering drug?
+            if selected_trenchcoat.name in self.world.dealer.keys():
                 self.ui.sell_button.setEnabled(True)
             else:
                 self.ui.sell_button.setEnabled(False)
@@ -214,59 +258,25 @@ class MainWindow():
             self.ui.sell_button.setEnabled(False)
             self.ui.dump_button.setEnabled(False)
 
-    def buy_button(self):
-        name = self.ui.dealer_table.currentItem().name
-        max_drugs = self.world.player.trenchcoat["max"]
-        free_space = max_drugs - self.world.player.total_drugs()
-        transact = TransactDialog(self.window,
-                                  "Buy",
-                                  common.drugs[name]["name"],
-                                  self.world.dealer[name],
-                                  self.world.player.cash,
-                                  free_space,
-                                  0)
+    def do_transact(self, kind):
+        """Display transaction dialog for buy/sell/dump."""
+        if kind == "Buy":
+            name = self.ui.dealer_table.currentItem().name
+        else:
+            name = self.ui.trenchcoat_table.currentItem().name
 
-        def buy():
-            self.world.buy_from_dealer(name, transact.amount)
+        transact = TransactDialog(self, kind)
+        kind_map = {
+            "Buy": "buy_from_dealer",
+            "Sell": "sell_to_dealer",
+            "Dump": "dump_drug"
+        }
+
+        def finalise():
+            getattr(self.world, kind_map[kind])(name, transact.amount)
             self.update()
 
-        transact.dialog.accepted.connect(buy)
-        transact.dialog.exec()
-
-    def sell_button(self):
-        name = self.ui.trenchcoat_table.currentItem().name
-        owned = self.world.player.trenchcoat["drugs"][name]["count"]
-        transact = TransactDialog(self.window,
-                                  "Sell",
-                                  common.drugs[name]["name"],
-                                  self.world.dealer[name],
-                                  self.world.player.cash,
-                                  0,
-                                  owned)
-
-        def sell():
-            self.world.sell_to_dealer(name, transact.amount)
-            self.update()
-
-        transact.dialog.accepted.connect(sell)
-        transact.dialog.exec()
-
-    def dump_button(self):
-        name = self.ui.trenchcoat_table.currentItem().name
-        owned = self.world.player.trenchcoat["drugs"][name]["count"]
-        transact = TransactDialog(self.window,
-                                  "Dump",
-                                  common.drugs[name]["name"],
-                                  self.world.dealer[name],
-                                  self.world.player.cash,
-                                  0,
-                                  owned)
-
-        def dump():
-            self.world.player.remove_drug(name, transact.amount)
-            self.update()
-
-        transact.dialog.accepted.connect(dump)
+        transact.dialog.accepted.connect(finalise)
         transact.dialog.exec()
 
     def update(self):
@@ -297,6 +307,8 @@ class MainWindow():
         self.update_areas()
 
     def populate_dealer(self):
+        """Populate dealer table with drugs on offer."""
+        # TODO: sort alphabetically
         self.ui.dealer_table.setRowCount(len(self.world.dealer.keys()))
         row = 0
         for name, price in self.world.dealer.items():
@@ -309,6 +321,8 @@ class MainWindow():
             row += 1
 
     def populate_trenchcoat(self):
+        """Populate trenchcoat table with held drugs."""
+        # TODO: sort alphabetically
         self.ui.trenchcoat_table.setRowCount(len(self.world.player.trenchcoat["drugs"].keys()))
         row = 0
         for k, v in self.world.player.trenchcoat["drugs"].items():
@@ -322,7 +336,7 @@ class MainWindow():
             self.ui.trenchcoat_table.setItem(row, 1, price_cell)
             self.ui.trenchcoat_table.setItem(row, 2, count_cell)
             row += 1
-        # max space
+        # max space label
         self.ui.max_drugs_label.setText("%i/%i" % (self.world.player.total_drugs(),
                                                    self.world.player.trenchcoat["max"]))
 

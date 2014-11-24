@@ -1,6 +1,7 @@
 # dope wars
 
 import random
+import math
 
 import common
 import player
@@ -13,6 +14,8 @@ class World():
         self.world_name = common.areas[0]
         self.areas = common.areas[1:]
         self.current_area = random.choice(self.areas)
+
+        self.loan_interest = 15
 
         self.events = []
 
@@ -28,16 +31,37 @@ class World():
 
         self.new_dealer()
 
-    # TODO: load world
+    def dump_drug(self, name, count):
+        self.player.remove_drug(name, count)
 
-    def next_turn(self):
+    def deposit_bank(self, amount):
+        if self.player.spend_cash(amount):
+            self.player.add_bank(amount)
+            return True
+        else:
+            return False
+
+    def withdraw_bank(self, amount):
+        if self.player.remove_bank(amount):
+            self.player.add_cash(amount)
+            return True
+        else:
+            return False
+
+    def update_loan(self):
+        if self.player.loan > 0:
+            interest = math.floor((self.player.loan / 100) * self.loan_interest)
+            self.player.loan += interest
+
+    def next_day(self):
         self.day[0] += 1
         self.new_dealer()
+        self.update_loan()
         # TODO: process events
 
     def travel_to(self, index):
         self.current_area = self.areas[index]
-        self.next_turn()
+        self.next_day()
 
     # dealer
     def new_dealer(self):
@@ -55,7 +79,9 @@ class World():
             return False
 
     def sell_to_dealer(self, name, count=1):
-        if name in self.dealer.keys() and name in self.player.trenchcoat["drugs"].keys():
+        dealer_drugs = self.dealer.keys()
+        player_drugs = self.player.trenchcoat["drugs"].keys()
+        if name in dealer_drugs and name in player_drugs:
             price = self.dealer[name]
             if self.player.remove_drug(name, count):
                 self.player.add_cash(count * price)

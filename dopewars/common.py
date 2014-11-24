@@ -6,29 +6,22 @@ config = {
 }
 
 drugs = {
-    "weed": {
-        "name": "Weed",
-        "base_price": 300
-    },
     "acid": {
         "name": "Acid",
-        "base_price": 2000
+        "base_price": 2500
     },
-    "mushrooms": {
-        "name": "Shrooms",
-        "base_price": 150
-    },
+
     "cocaine": {
         "name": "Coke",
         "base_price": 20000
     },
     "crack": {
         "name": "Crack",
-        "base_price": 1000
+        "base_price": 2100
     },
     "ecstasy": {
         "name": "Ecstasy",
-        "base_price": 75
+        "base_price": 30
     },
     "hash": {
         "name": "Hash",
@@ -36,19 +29,39 @@ drugs = {
     },
     "ketamine": {
         "name": "Ketamine",
-        "base_price": 1000
+        "base_price": 1200
+    },
+    "oxy": {
+        "name": "Oxy",
+        "base_price": 650
+    },
+    "heroin": {
+        "name": "Heroin",
+        "base_price": 8000
     },
     "meth": {
         "name": "Meth",
-        "base_price": 900
+        "base_price": 150
     },
     "mdma": {
         "name": "MDMA",
-        "base_price": 350
+        "base_price": 3000
+    },
+    "mushrooms": {
+        "name": "Shrooms",
+        "base_price": 700
     },
     "lean": {
         "name": "Lean",
         "base_price": 15
+    },
+    "dmt": {
+        "name": "DMT",
+        "base_price": 500
+    },
+    "weed": {
+        "name": "Weed",
+        "base_price": 350
     }
 }
 

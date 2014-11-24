@@ -15,9 +15,12 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableWidget" name="tableWidget">
+    <widget class="QTableWidget" name="weapons_table">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
      </property>
      <property name="dragDropOverwriteMode">
       <bool>false</bool>
@@ -28,11 +31,17 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
      <property name="cornerButtonEnabled">
       <bool>false</bool>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>200</number>
+     </attribute>
+     <attribute name="horizontalHeaderHighlightSections">
+      <bool>false</bool>
      </attribute>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>50</number>
@@ -56,7 +65,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="buy_button">
      <property name="text">
       <string>Buy</string>
      </property>
@@ -69,7 +78,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="weapon_label">
        <property name="minimumSize">
         <size>
          <width>35</width>
@@ -94,7 +103,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="weapon_equipped">
        <property name="font">
         <font>
          <weight>75</weight>

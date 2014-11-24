@@ -1,4 +1,4 @@
-* Tasks [0/20]
+* Tasks [1/24]
 ** TODO World save/load methods
 ** TODO Events
 ** TODO new player dialog
@@ -13,6 +13,12 @@ mechanic should include some prices remaining the same between travel
 ** TODO If sort on and buy, hilighted select changes
 ** TODO Drug name exception class
 ** TODO buy button check if can buy at all
+** TODO Show interest rate somewhere
+** TODO can't afford message when buying
+** TODO error when double click sell drug dealer doesn't have
+just do nothin
+** DONE Add day interest on loan when first taking out
+CLOSED: [2014-11-24 Mon 14:21]
 ** TODO Logging
 ** TODO Move all special values to a common.config
 ** TODO Separate world class to file

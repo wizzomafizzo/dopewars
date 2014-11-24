@@ -8,15 +8,47 @@ config = {
 drugs = {
     "weed": {
         "name": "Weed",
-        "base_price": 100
+        "base_price": 300
     },
     "acid": {
         "name": "Acid",
-        "base_price": 50
+        "base_price": 2000
     },
     "mushrooms": {
-        "name": "Magic Mushrooms",
+        "name": "Shrooms",
+        "base_price": 150
+    },
+    "cocaine": {
+        "name": "Coke",
+        "base_price": 20000
+    },
+    "crack": {
+        "name": "Crack",
+        "base_price": 1000
+    },
+    "ecstasy": {
+        "name": "Ecstasy",
         "base_price": 75
+    },
+    "hash": {
+        "name": "Hash",
+        "base_price": 800
+    },
+    "ketamine": {
+        "name": "Ketamine",
+        "base_price": 1000
+    },
+    "meth": {
+        "name": "Meth",
+        "base_price": 900
+    },
+    "mdma": {
+        "name": "MDMA",
+        "base_price": 350
+    },
+    "lean": {
+        "name": "Lean",
+        "base_price": 15
     }
 }
 

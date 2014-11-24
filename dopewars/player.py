@@ -184,7 +184,7 @@ class Player():
             return False
 
     def add_ammo(self, amount):
-        self.weapon[1] += 1
+        self.weapon[1] += amount
         return True
 
     def shoot_weapon(self):

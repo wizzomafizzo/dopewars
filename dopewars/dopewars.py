@@ -31,28 +31,6 @@ class World():
 
         self.new_dealer()
 
-    def dump_drug(self, name, count):
-        self.player.remove_drug(name, count)
-
-    def deposit_bank(self, amount):
-        if self.player.spend_cash(amount):
-            self.player.add_bank(amount)
-            return True
-        else:
-            return False
-
-    def withdraw_bank(self, amount):
-        if self.player.remove_bank(amount):
-            self.player.add_cash(amount)
-            return True
-        else:
-            return False
-
-    def update_loan(self):
-        if self.player.loan > 0:
-            interest = math.floor((self.player.loan / 100) * self.loan_interest)
-            self.player.loan += interest
-
     def next_day(self):
         self.day[0] += 1
         self.new_dealer()
@@ -63,12 +41,39 @@ class World():
         self.current_area = self.areas[index]
         self.next_day()
 
+
+    def dump_drug(self, name, count):
+        self.player.remove_drug(name, count)
+
+    # weapons
+    def buy_weapon(self, name):
+        price = common.weapons[name]["weapon_price"]
+        if self.player.spend_cash(price):
+            self.player.set_weapon(name)
+            return True
+        else:
+            return False
+
+    def buy_ammo(self, name):
+        price = common.weapons[name]["ammo_price"]
+        if self.player.spend_cash(price):
+            self.player.add_ammo(10)
+            return True
+        else:
+            return False
+
     # dealer
     def new_dealer(self):
         self.dealer = {}
-        for k, v in common.drugs.items():
-            # TODO: shouldn't be harcoded (or so simple)
-            self.dealer[k] = random.randint(1, 3) * v["base_price"]
+        drug_list = list(common.drugs.keys())
+        drug_count = random.randint(4, len(drug_list) - 1)  # at least 5
+        random.shuffle(drug_list)
+
+        for drug in drug_list[0:drug_count]:
+            base_price = common.drugs[drug]["base_price"]
+            difference = math.floor(base_price / 2)
+            price = base_price + random.randint(0-difference, difference)
+            self.dealer[drug] = price
 
     def buy_from_dealer(self, name, count=1):
         # check they actually have the drug
@@ -114,3 +119,41 @@ class World():
     def events_future(self):
         """Return queued events next turn or later."""
         return self.sort_events()[1]
+
+    # bank
+    def deposit_bank(self, amount):
+        if self.player.spend_cash(amount):
+            self.player.add_bank(amount)
+            return True
+        else:
+            return False
+
+    def withdraw_bank(self, amount):
+        if self.player.remove_bank(amount):
+            self.player.add_cash(amount)
+            return True
+        else:
+            return False
+
+    # loan
+    def pay_loan(self):
+        if self.player.loan > 0 and self.player.cash >= self.player.loan:
+            self.player.spend_cash(self.player.loan)
+            self.player.loan = 0
+            return True
+        else:
+            return False
+
+    def take_loan(self, amount):
+        if self.player.loan == 0:
+            self.player.add_loan(amount)
+            self.player.add_cash(amount)
+            self.update_loan()
+            return True
+        else:
+            return False
+
+    def update_loan(self):
+        if self.player.loan > 0:
+            interest = math.floor((self.player.loan / 100) * self.loan_interest)
+            self.player.loan += interest

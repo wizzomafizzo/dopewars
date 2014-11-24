@@ -32,26 +32,36 @@ class TransactDialog():
         self.ui = qt_transact_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
 
+        self.ui.max_button.clicked.connect(self.max_button)
+        self.ui.amount_spinbox.valueChanged.connect(self.update)
+
         self.amount = 1  # final value checked on accept
         self.max_amount = 1
         self.kind = kind
 
+        # get selected item
         if kind == "Buy":
             self.name = parent.ui.dealer_table.currentItem().name
         else:
             self.name = parent.ui.trenchcoat_table.currentItem().name
 
+        # free space
         max_drugs = parent.world.player.trenchcoat["max"]
         self.free_space = max_drugs - parent.world.player.total_drugs()
 
+        # dealer price
         self.price = parent.world.dealer[self.name]
+
+        # amount player owns
         if kind != "Buy":
             trenchcoat = parent.world.player.trenchcoat["drugs"]
             self.owned = trenchcoat[self.name]["count"]
 
+        # set windows title
         pretty_name = common.drugs[self.name]["name"]
         self.dialog.setWindowTitle("%s %s" % (kind, pretty_name))
 
+        # max amount can be bought/sold/dumped
         cash = parent.world.player.cash
         if kind == "Buy":
             self.max_amount = math.floor(cash / self.price)
@@ -60,25 +70,25 @@ class TransactDialog():
         else:
             self.max_amount = self.owned
 
-        self.ui.max_button.clicked.connect(self.max_button)
-        self.ui.amount_spinbox.valueChanged.connect(self.update)
-
         self.ui.amount_spinbox.setMaximum(self.max_amount)
         self.ui.amount_spinbox.setValue(self.max_amount)
-
         self.update()
 
     def max_button(self):
+        """Set spinbox to max amount."""
         self.ui.amount_spinbox.setValue(self.max_amount)
 
     def update(self):
+        """Update final amount, info and toggle buttons."""
         self.amount = self.ui.amount_spinbox.value()
 
+        # max button
         if self.amount == self.max_amount:
             self.ui.max_button.setEnabled(False)
         else:
             self.ui.max_button.setEnabled(True)
 
+        # transaction info
         if self.kind == "Dump":
             self.ui.total_label.setText("%i left" % (self.owned - self.amount))
         else:
@@ -97,8 +107,11 @@ class FinancesDialog():
 
         self.ui.cash_spinbox.valueChanged.connect(self.update)
         self.ui.bank_spinbox.valueChanged.connect(self.update)
+        self.ui.loan_spinbox.valueChanged.connect(self.update)
         self.ui.deposit_button.clicked.connect(self.deposit_button)
         self.ui.withdraw_button.clicked.connect(self.withdraw_button)
+        self.ui.pay_loan_button.clicked.connect(self.pay_loan_button)
+        self.ui.take_loan_button.clicked.connect(self.take_loan_button)
         self.ui.max_bank_button.clicked.connect(self.max_bank_button)
         self.ui.max_cash_button.clicked.connect(self.max_cash_button)
 
@@ -108,10 +121,13 @@ class FinancesDialog():
         self.ui.bank_spinbox.setValue(self.world.player.bank)
 
     def update(self):
+        """Toggle all buttons, update labels and spinbox settings."""
         self.ui.cash_spinbox.setMaximum(self.world.player.cash)
         self.ui.bank_spinbox.setMaximum(self.world.player.bank)
 
-        self.ui.loan_amount.setText("$%i" % self.world.player.loan)
+        self.ui.cash_lcd.display(self.parent.world.player.cash)
+        self.ui.bank_lcd.display(self.parent.world.player.bank)
+        self.ui.loan_lcd.display(self.parent.world.player.loan)
 
         # toggle max buttons
         if self.world.player.cash == self.ui.cash_spinbox.value():
@@ -124,7 +140,7 @@ class FinancesDialog():
         else:
             self.ui.max_bank_button.setEnabled(True)
 
-        # toggle bank and cash spinboxes
+        # toggle bank and cash buttons
         if self.ui.cash_spinbox.value() == 0:
             self.ui.deposit_button.setEnabled(False)
         else:
@@ -135,38 +151,146 @@ class FinancesDialog():
         else:
             self.ui.withdraw_button.setEnabled(True)
 
-        # toggle loan buttons and spinbox
+        # toggle bank and cash spinboxes
+        if self.world.player.cash == 0:
+            self.ui.cash_spinbox.setEnabled(False)
+        else:
+            self.ui.cash_spinbox.setEnabled(True)
+
+        if self.world.player.bank == 0:
+            self.ui.bank_spinbox.setEnabled(False)
+        else:
+            self.ui.bank_spinbox.setEnabled(True)
+
+        # loan spinbox
         if self.world.player.loan > 0:
-            self.ui.pay_loan_button.setEnabled(True)
             self.ui.loan_spinbox.setEnabled(False)
+        else:
+            self.ui.loan_spinbox.setEnabled(True)
+
+        # take loan
+        if self.ui.loan_spinbox.value() > 0 and self.world.player.loan == 0:
+            self.ui.take_loan_button.setEnabled(True)
+        else:
             self.ui.take_loan_button.setEnabled(False)
+
+        # pay loan
+        if (self.parent.world.player.cash >= self.parent.world.player.loan
+            and self.parent.world.player.loan > 0):
+            self.ui.pay_loan_button.setEnabled(True)
         else:
             self.ui.pay_loan_button.setEnabled(False)
-            self.ui.loan_spinbox.setEnabled(True)
-            self.ui.take_loan_button.setEnabled(True)
 
     def deposit_button(self):
+        """Deposit amount to bank."""
         self.world.deposit_bank(self.ui.cash_spinbox.value())
         self.update()
         self.parent.update()
 
     def withdraw_button(self):
+        """Withdraw amount from bank."""
         self.world.withdraw_bank(self.ui.bank_spinbox.value())
         self.update()
         self.parent.update()
 
+    def pay_loan_button(self):
+        """Pay off entire loan."""
+        self.world.pay_loan()
+        self.update()
+        self.parent.update()
+
+    def take_loan_button(self):
+        """Take out new loan."""
+        self.world.take_loan(self.ui.loan_spinbox.value())
+        self.ui.loan_spinbox.setValue(0)
+        self.update()
+        self.parent.update()
+
     def max_bank_button(self):
+        """Set bank spinbox to max allowed."""
         self.ui.bank_spinbox.setValue(self.world.player.bank)
 
     def max_cash_button(self):
+        """Set cash spinbox to max allowed."""
         self.ui.cash_spinbox.setValue(self.world.player.cash)
 
 
 class StoreDialog():
     def __init__(self, parent):
+        """Display store dialog."""
         self.dialog = QDialog(parent.window)
         self.ui = qt_store_dialog.Ui_Dialog()
         self.ui.setupUi(self.dialog)
+
+        self.parent = parent
+        self.world = self.parent.world
+
+        self.ui.weapons_table.itemSelectionChanged.connect(self.update)
+        self.ui.buy_button.clicked.connect(self.buy_weapon)
+
+        self.update()
+        self.ui.weapons_table.setCurrentCell(0, 0)
+
+    def populate_weapons(self):
+        """Populate weapons table with weapons on offer."""
+        # TODO: sort alphabetically
+        weapon = self.world.player.weapon[0]
+        row_count = len(common.weapons.keys())
+        self.ui.weapons_table.setRowCount(row_count)
+
+        if weapon is not None:
+            row = 1
+            name = common.weapons[weapon]["name"]
+            price = common.weapons[weapon]["ammo_price"]
+            name_cell = DrugWidget((name + " Ammo (10)"), weapon)
+            price_cell = DrugWidget(str(price), weapon)
+            price_cell.setTextAlignment(QtCore.Qt.AlignCenter)
+            self.ui.weapons_table.setItem(0, 0, name_cell)
+            self.ui.weapons_table.setItem(0, 1, price_cell)
+        else:
+            row = 0
+
+        for name in common.weapons.keys():
+            if name != weapon:
+                name_cell = DrugWidget(common.weapons[name]["name"], name)
+                price_cell = DrugWidget(str(common.weapons[name]["weapon_price"]), name)
+                price_cell.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.ui.weapons_table.setItem(row, 0, name_cell)
+                self.ui.weapons_table.setItem(row, 1, price_cell)
+                row += 1
+
+    def update(self):
+        self.populate_weapons()
+
+        self.ui.cash_lcd.display(self.world.player.cash)
+
+        self.ui.buy_button.setEnabled(False)
+        selected = self.ui.weapons_table.currentItem()
+        if selected is not None:
+            if selected.name == self.world.player.weapon[0]:
+                lookup = "ammo_price"
+            else:
+                lookup = "weapon_price"
+
+            if self.world.player.cash >= common.weapons[selected.name][lookup]:
+                self.ui.buy_button.setEnabled(True)
+
+        weapon, ammo = self.world.player.weapon
+        if weapon is not None:
+            pretty_name = common.weapons[weapon]["name"]
+            self.ui.weapon_equipped.setText("%s [%i]" % (pretty_name, ammo))
+        else:
+            self.ui.weapon_equipped.setText("Unarmed")
+
+    def buy_weapon(self):
+        name = self.ui.weapons_table.currentItem().name
+        if name == self.world.player.weapon[0]:
+            self.world.buy_ammo(name)
+        else:
+            self.world.buy_weapon(name)
+        self.update()
+        self.parent.update()
+        self.ui.weapons_table.setCurrentCell(0, 0)
 
 
 class MainWindow():
@@ -200,7 +324,6 @@ class MainWindow():
         # set up world
         self.world = dopewars.World()
         self.world.new_world("Test Guy")
-        self.world.player.add_drug("weed", 150, 25)
 
         self.clear_action_log()
         self.log_action("A new game begins!")
@@ -224,7 +347,7 @@ class MainWindow():
     def travel_to(self, index):
         """Change current area and tick to next day."""
         self.world.travel_to(index)
-        self.world.clear_action_log()
+        self.clear_action_log()
         self.update()
 
     def update_areas(self):
@@ -298,6 +421,14 @@ class MainWindow():
         # loan
         self.ui.loan_lcd.display(self.world.player.loan)
 
+        # weapon
+        weapon, ammo = self.world.player.weapon
+        if weapon is not None:
+            pretty_name = common.weapons[weapon]["name"]
+            self.ui.weapon_equipped.setText("%s [%i]" % (pretty_name, ammo))
+        else:
+            self.ui.weapon_equipped.setText("Unarmed")
+
         # dealer
         self.populate_dealer()
         # trenchcoat
@@ -310,11 +441,12 @@ class MainWindow():
         """Populate dealer table with drugs on offer."""
         # TODO: sort alphabetically
         self.ui.dealer_table.setRowCount(len(self.world.dealer.keys()))
+        drugs_sorted = sorted(self.world.dealer.keys())
         row = 0
-        for name, price in self.world.dealer.items():
+        for name in drugs_sorted:
             pretty_name = common.drugs[name]["name"]
             name_cell = DrugWidget(pretty_name, name)
-            price_cell = DrugWidget(str(price), name)
+            price_cell = DrugWidget(str(self.world.dealer[name]), name)
             price_cell.setTextAlignment(QtCore.Qt.AlignCenter)
             self.ui.dealer_table.setItem(row, 0, name_cell)
             self.ui.dealer_table.setItem(row, 1, price_cell)

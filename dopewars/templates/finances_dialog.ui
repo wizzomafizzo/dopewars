@@ -58,7 +58,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_227_usd.png</pixmap>
+           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-228-usd.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -135,7 +135,7 @@
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_432_plus.png</normaloff>:/glyph/icons/glyphicons_432_plus.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-433-plus.png</normaloff>:/glyph/icons/glyphicons-433-plus.png</iconset>
           </property>
          </widget>
         </item>
@@ -188,7 +188,7 @@
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_432_plus.png</normaloff>:/glyph/icons/glyphicons_432_plus.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-433-plus.png</normaloff>:/glyph/icons/glyphicons-433-plus.png</iconset>
           </property>
          </widget>
         </item>
@@ -227,7 +227,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_263_bank.png</pixmap>
+           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-264-bank.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -296,7 +296,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_458_money.png</pixmap>
+           <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-459-money.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

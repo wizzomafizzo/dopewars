@@ -71,7 +71,7 @@ class World():
 
         for drug in drug_list[0:drug_count]:
             base_price = common.drugs[drug]["base_price"]
-            difference = math.floor(base_price * 0.5)
+            difference = math.floor(base_price * 0.4)
             price = base_price + random.randint(0-difference, difference)
             self.dealer[drug] = price
 

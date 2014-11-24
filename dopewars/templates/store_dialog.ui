@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
+    <width>333</width>
     <height>366</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
       <string>Buy</string>
      </property>
      <property name="icon">
-      <iconset resource="../dopewars.qrc">
+      <iconset>
        <normaloff>:/glyph/icons/glyphicons_209_cart_in.png</normaloff>:/glyph/icons/glyphicons_209_cart_in.png</iconset>
      </property>
     </widget>
@@ -95,7 +95,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_281_bullets.png</pixmap>
+        <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-282-bullets.png</pixmap>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -143,7 +143,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_227_usd.png</pixmap>
+        <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-228-usd.png</pixmap>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>665</width>
-    <height>800</height>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -82,7 +82,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_012_heart.png</pixmap>
+             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-13-heart.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -145,7 +145,7 @@ display: none;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_227_usd.png</pixmap>
+             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-228-usd.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -192,7 +192,7 @@ display: none;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_263_bank.png</pixmap>
+             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-264-bank.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -236,7 +236,7 @@ display: none;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_458_money.png</pixmap>
+             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-459-money.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -277,7 +277,7 @@ display: none;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons_281_bullets.png</pixmap>
+             <pixmap resource="../dopewars.qrc">:/glyph/icons/glyphicons-282-bullets.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -404,9 +404,13 @@ display: none;
           </widget>
          </item>
          <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="jet_button">
            <property name="text">
-            <string>__TRAVEL__</string>
+            <string>__JET__</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../dopewars.qrc">
+             <normaloff>:/glyph/icons/glyphicons-39-airplane.png</normaloff>:/glyph/icons/glyphicons-39-airplane.png</iconset>
            </property>
           </widget>
          </item>
@@ -532,7 +536,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_217_circle_arrow_right.png</normaloff>:/glyph/icons/glyphicons_217_circle_arrow_right.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-218-circle-arrow-right.png</normaloff>:/glyph/icons/glyphicons-218-circle-arrow-right.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -561,7 +565,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_216_circle_arrow_left.png</normaloff>:/glyph/icons/glyphicons_216_circle_arrow_left.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-217-circle-arrow-left.png</normaloff>:/glyph/icons/glyphicons-217-circle-arrow-left.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -590,7 +594,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_016_bin.png</normaloff>:/glyph/icons/glyphicons_016_bin.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-17-bin.png</normaloff>:/glyph/icons/glyphicons-17-bin.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -632,7 +636,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_341_briefcase.png</normaloff>:/glyph/icons/glyphicons_341_briefcase.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-342-briefcase.png</normaloff>:/glyph/icons/glyphicons-342-briefcase.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -661,7 +665,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_202_shopping_cart.png</normaloff>:/glyph/icons/glyphicons_202_shopping_cart.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-203-shopping-cart.png</normaloff>:/glyph/icons/glyphicons-203-shopping-cart.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -690,7 +694,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../dopewars.qrc">
-            <normaloff>:/glyph/icons/glyphicons_298_hospital.png</normaloff>:/glyph/icons/glyphicons_298_hospital.png</iconset>
+            <normaloff>:/glyph/icons/glyphicons-299-hospital.png</normaloff>:/glyph/icons/glyphicons-299-hospital.png</iconset>
           </property>
           <property name="iconSize">
            <size>

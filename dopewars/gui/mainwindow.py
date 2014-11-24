@@ -80,6 +80,8 @@ class MainWindow():
     def update_areas(self):
         """Set up and toggle area buttons."""
         self.ui.world_layout.setTitle(self.world.world_name)
+        self.ui.jet_button.setText("Jet!")
+        self.ui.jet_button.setEnabled(False)
         for i in range(6):
             getattr(self.ui, "area_%s_button" % (i+1)).setText(self.world.areas[i])
             on = True

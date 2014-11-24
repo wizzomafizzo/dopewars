@@ -63,7 +63,7 @@
        </property>
        <property name="icon">
         <iconset resource="../dopewars.qrc">
-         <normaloff>:/glyph/icons/glyphicons_432_plus.png</normaloff>:/glyph/icons/glyphicons_432_plus.png</iconset>
+         <normaloff>:/glyph/icons/glyphicons-433-plus.png</normaloff>:/glyph/icons/glyphicons-433-plus.png</iconset>
        </property>
       </widget>
      </item>

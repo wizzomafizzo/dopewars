@@ -13,7 +13,9 @@ templates = ["fight_dialog.ui",
              "finances_dialog.ui",
              "main_window.ui",
              "store_dialog.ui",
-             "transact_dialog.ui"]
+             "transact_dialog.ui",
+             "highscores_dialog.ui",
+             "newgame_dialog.ui"]
 
 for t in templates:
     pyname = "qt_"+t.lower().replace(".ui", ".py")

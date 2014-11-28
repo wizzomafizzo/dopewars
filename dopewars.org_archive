@@ -1,0 +1,202 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file c:/Users/callan/dev/dopewars/dopewars.org
+
+
+* DONE dont allow buy when no space
+CLOSED: [2014-11-27 Thu 18:52]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:52
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE price up/down arrows
+CLOSED: [2014-11-27 Thu 18:51]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:52
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE remove save/load shit
+CLOSED: [2014-11-27 Thu 10:45]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:52
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE make full trenchcoat more obvious
+CLOSED: [2014-11-27 Thu 18:50]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:52
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE lcd displays in finances screen
+CLOSED: [2014-11-27 Thu 18:55]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:55
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE transact dialog minimum
+CLOSED: [2014-11-27 Thu 18:55]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:55
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE toggle max button
+CLOSED: [2014-11-27 Thu 18:55]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:55
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE Add day interest on loan when first taking out
+CLOSED: [2014-11-24 Mon 14:21]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:55
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE Next turn method on player
+CLOSED: [2014-11-27 Thu 18:55]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:55
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+Can do stuff like health regen, loan
+
+* DONE new player dialog
+CLOSED: [2014-11-27 Thu 18:57]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:57
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE Separate world class to file
+CLOSED: [2014-11-27 Thu 18:57]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:57
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE finances spinboxes don't accelerate
+CLOSED: [2014-11-27 Thu 18:58]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 18:58
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE double click buy/sell doesn't check if possible
+CLOSED: [2014-11-27 Thu 19:06]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 19:06
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE buy button check if can buy at all
+CLOSED: [2014-11-27 Thu 19:11]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 19:11
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE Handle death during game, during fight
+CLOSED: [2014-11-27 Thu 19:35]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 19:35
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE handle run out of days
+CLOSED: [2014-11-27 Thu 20:03]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 20:03
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE escape on newgame isn't exiting???
+CLOSED: [2014-11-27 Thu 21:50]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-27 Thu 21:50
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE bug
+CLOSED: [2014-11-28 Fri 17:51]
+:PROPERTIES:
+:ARCHIVE_TIME: 2014-11-28 Fri 17:51
+:ARCHIVE_FILE: c:/Users/callan/dev/dopewars/dopewars.org
+:ARCHIVE_OLPATH: Tasks
+:ARCHIVE_CATEGORY: dopewars
+:ARCHIVE_TODO: DONE
+:END:
+Traceback (most recent call last):
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 52, in <lambda>
+    self.ui.area_4_button.clicked.connect(lambda: self.travel_to(3))
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 83, in travel_to
+    self.do_fight()
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 99, in do_fight
+    self.update()
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 205, in update
+    self.toggle_buttons()
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 160, in toggle_buttons
+    self.world.player.cash >= self.world.dealer[dealer[0]] and
+KeyError: 'hash'
+Traceback (most recent call last):
+  File "C:\Users\callan\dev\dopewars\dopewars\gui\mainwindow.py", line 160, in toggle_buttons
+    self.world.player.cash >= self.world.dealer[dealer[0]] and
+KeyError: 'hash'

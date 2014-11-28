@@ -2,7 +2,21 @@
 
 
 config = {
-    "max_days": 30
+    "max_days": 30,
+    "default_world": "Westeros"
+}
+
+events = {
+    "bust": {
+        "chance": 100,
+        "kind": "bust",
+        "msg": "%s prices have skyrocketed!<br>"
+    },
+    "boom": {
+        "chance": 100,
+        "kind": "boom",
+        "msg": "A huge shipment of %s has come through, prices have hit rock bottom!<br>"
+    }
 }
 
 drugs = {
@@ -69,19 +83,28 @@ weapons = {
     "slingshot": {
         "name": "Slingshot",
         "weapon_price": 100,
-        "ammo_price": 1
+        "ammo_price": 1,
+        "damage": 25
     },
     "handgun": {
         "name": "Handgun",
         "weapon_price": 1000,
-        "ammo_price": 10
+        "ammo_price": 10,
+        "damage": 70
     }
 }
 
-areas = ["Westeros",
-         "The North",
-         "The Vale of Arryn",
-         "The Riverlands",
-         "The Westerlands",
-         "The Iron Islands",
-         "The Crownlands"]
+worlds = {
+    "Westeros": ["The North",
+                 "The Vale of Arryn",
+                 "The Riverlands",
+                 "The Westerlands",
+                 "The Iron Islands",
+                 "The Crownlands"],
+    "Springfield": ["Moe's Tavern",
+                    "Stoner's Pot Palace",
+                    "Kwik-E-Mart",
+                    "The Leftorium",
+                    "Sleep Eazy Motel",
+                    "Krusty Burger"]
+}

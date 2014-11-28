@@ -108,6 +108,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="accelerated">
+           <bool>true</bool>
+          </property>
           <property name="prefix">
            <string>$</string>
           </property>
@@ -160,6 +163,9 @@
             <width>100</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="accelerated">
+           <bool>true</bool>
           </property>
           <property name="prefix">
            <string>$</string>
@@ -347,6 +353,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QSpinBox" name="loan_spinbox">
+          <property name="accelerated">
+           <bool>true</bool>
+          </property>
           <property name="prefix">
            <string>$</string>
           </property>

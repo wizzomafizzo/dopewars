@@ -1,9 +1,18 @@
 <RCC>
   <qresource prefix="glyph">
+    <file>icons/glyphicons-347-hand-left.png</file>
+    <file>icons/glyphicons-346-hand-right.png</file>
+    <file>icons/glyphicons-192-circle-minus.png</file>
+    <file>icons/glyphicons-601-chevron-up.png</file>
+    <file>icons/glyphicons-602-chevron-down.png</file>
+    <file>icons/glyphicons-188-more.png</file>
+    <file>icons/glyphicons-220-circle-arrow-down.png</file>
+    <file>icons/glyphicons-219-circle-arrow-top.png</file>
     <file>icons/glyphicons-433-plus.png</file>
     <file>icons/glyphicons-208-remove-2.png</file>
     <file>icons/glyphicons-271-shield.png</file>
     <file>icons/glyphicons-13-heart.png</file>
+    <file>icons/glyphicons-434-minus.png</file>
     <file>icons/glyphicons-378-riflescope.png</file>
     <file>icons/glyphicons-389-exit.png</file>
     <file>icons/glyphicons-267-flag.png</file>

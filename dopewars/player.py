@@ -35,27 +35,6 @@ class Player():
                           self.loan,
                           self.bank))
 
-    # save/load
-    def save(self):
-        """Return entire player instance as a map."""
-        return {
-            "name": self.name,
-            "health": self.health,
-            "cash": self.cash,
-            "loan": self.loan,
-            "bank": self.bank,
-            "trenchcoat": self.trenchcoat
-        }
-
-    def load(self, player):
-        """Load exported player into current instance."""
-        self.name = player["name"]
-        self.healh = player["health"]
-        self.cash = player["cash"]
-        self.loan = player["loan"]
-        self.bank = player["bank"]
-        self.trenchcoat = player["trenchcoat"]
-
     # health
     def damage(self, amount):
         """Reduce player health by amount."""
@@ -71,6 +50,15 @@ class Player():
         if self.health[0] > self.health[1]:
             self.health[0] = self.health[1]
         return True
+
+    def heal_all(self):
+        self.health[0] = self.health[1]
+
+    def is_damaged(self):
+        if self.health[0] < self.health[1]:
+            return True
+        else:
+            return False
 
     def is_alive(self):
         """Return True if player is alive, has more than 0 health."""
@@ -148,6 +136,18 @@ class Player():
         self.trenchcoat["drugs"] = {}
         return True
 
+    def has_drugs(self):
+        if len(self.trenchcoat["drugs"].keys()) == 0:
+            return False
+        else:
+            return True
+
+    def space_available(self):
+        return self.trenchcoat["max"] - self.total_drugs()
+
+    def drugs(self):
+        return self.trenchcoat["drugs"]
+
     # loans
     def add_loan(self, amount):
         """Add amount to player loan."""
@@ -197,3 +197,9 @@ class Player():
     def dump_weapon(self):
         self.weapon = [None, 0]
         return True
+
+    def has_weapons(self):
+        if self.weapon[0] is None:
+            return False
+        else:
+            return True

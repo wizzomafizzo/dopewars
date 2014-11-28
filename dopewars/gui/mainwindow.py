@@ -1,19 +1,27 @@
 # dope wars qt main window
 
-import sys
+import sys, random
 
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QIcon
 
 import common
 import world
+
 from gui.common import DrugWidget
 from gui.finances import FinancesDialog
 from gui.store import StoreDialog
 from gui.transact import TransactDialog
+from gui.fight import FightDialog
+from gui.newgame import NewGameDialog
+from gui.highscores import HighScoresDialog
 import qt_main_window
 
+config = {
+    "cop_chance": 30
+}
 
 class MainWindow():
     def __init__(self):
@@ -25,15 +33,18 @@ class MainWindow():
 
         # set up signals
         self.ui.actionQuit.triggered.connect(self.app.closeAllWindows)
+        self.ui.actionNewGame.triggered.connect(self.new_game)
 
         self.ui.buy_button.clicked.connect(lambda: self.do_transact("Buy"))
         self.ui.sell_button.clicked.connect(lambda: self.do_transact("Sell"))
         self.ui.dump_button.clicked.connect(lambda: self.do_transact("Dump"))
-        self.ui.dealer_table.itemDoubleClicked.connect(lambda: self.do_transact("Buy"))
-        self.ui.trenchcoat_table.itemDoubleClicked.connect(lambda: self.do_transact("Sell"))
+
+        self.ui.dealer_table.itemDoubleClicked.connect(self.doubleclick_buy)
+        self.ui.trenchcoat_table.itemDoubleClicked.connect(self.doubleclick_sell)
 
         self.ui.finances_button.clicked.connect(self.finances_button)
         self.ui.store_button.clicked.connect(self.store_button)
+        self.ui.hospital_button.clicked.connect(self.do_hospital)
 
         self.ui.dealer_table.itemSelectionChanged.connect(self.toggle_buttons)
         self.ui.trenchcoat_table.itemSelectionChanged.connect(self.toggle_buttons)
@@ -45,20 +56,38 @@ class MainWindow():
         self.ui.area_5_button.clicked.connect(lambda: self.travel_to(4))
         self.ui.area_6_button.clicked.connect(lambda: self.travel_to(5))
 
-        self.log = []
+        self.new_game()
 
-        # set up world
-        self.world = world.World()
-        self.world.new_world("Test Guy")
-
-        self.add_log("<h2>A new game begins!</h2>")
-        self.add_log("It's day <b>%i</b>.<i style='color: red; font-size: large'>You've got a loan to pay off!</i>" % self.world.day[0])
-
-        self.update()
-
-        # let's do it!
         self.window.show()
         sys.exit(self.app.exec_())
+
+    def new_game(self):
+        new_game = NewGameDialog(self)
+        action = new_game.exec()
+        if action != 1:
+            self.world = world.World()
+            self.world.new_world(new_game.settings["name"],
+                                 new_game.settings["length"],
+                                 new_game.settings["start_world"])
+            self.update()
+        else:
+            sys.exit()
+
+    def finish_game(self):
+        # TODO: high score list
+        high_scores = HighScoresDialog(self)
+        high_scores.dialog.exec()
+        self.new_game()
+
+    def process_ask(self, events):
+        for event in events
+
+    def travel_to(self, index):
+        """Change current area and tick to next day."""
+        self.world.travel_to(index)
+        if world.rand_percent(config["cop_chance"]):
+            self.do_fight()
+        self.update()
 
     def finances_button(self):
         """Display finances dialog."""
@@ -70,45 +99,14 @@ class MainWindow():
         store = StoreDialog(self)
         store.dialog.exec()
 
-    def travel_to(self, index):
-        """Change current area and tick to next day."""
-        self.world.travel_to(index)
-        self.clear_log()
-        self.add_log("It's day <b>%i.</b>" % self.world.day[0])
+    def do_fight(self):
+        fight = FightDialog(self)
+        fight.exec()
         self.update()
 
-    def update_areas(self):
-        """Set up and toggle area buttons."""
-        self.ui.world_layout.setTitle(self.world.world_name)
-        self.ui.jet_button.setText("Jet!")
-        self.ui.jet_button.setEnabled(False)
-        for i in range(6):
-            getattr(self.ui, "area_%s_button" % (i+1)).setText(self.world.areas[i])
-            on = True
-            if self.world.areas[i] == self.world.current_area:
-                on = False
-            getattr(self.ui, "area_%s_button" % (i+1)).setEnabled(on)
-
-    def toggle_buttons(self):
-        """Toggle all action buttons."""
-        # sell button
-        if self.ui.dealer_table.currentItem() is not None:
-            self.ui.buy_button.setEnabled(True)
-        else:
-            self.ui.buy_button.setEnabled(False)
-
-        # buy/dump buttons
-        selected_trenchcoat = self.ui.trenchcoat_table.currentItem()
-        if selected_trenchcoat is not None:
-            self.ui.dump_button.setEnabled(True)
-            # dealer offering drug?
-            if selected_trenchcoat.name in self.world.dealer.keys():
-                self.ui.sell_button.setEnabled(True)
-            else:
-                self.ui.sell_button.setEnabled(False)
-        else:
-            self.ui.sell_button.setEnabled(False)
-            self.ui.dump_button.setEnabled(False)
+    def do_hospital(self):
+        self.world.visit_hospital()
+        self.update()
 
     def do_transact(self, kind):
         """Display transaction dialog for buy/sell/dump."""
@@ -131,6 +129,58 @@ class MainWindow():
         transact.dialog.accepted.connect(finalise)
         transact.dialog.exec()
 
+    def update_areas(self):
+        """Set up and toggle area buttons."""
+        self.ui.world_layout.setTitle(self.world.world_name)
+
+        if self.world.day[0] >= self.world.day[1]:
+            self.ui.jet_button.setText("Finish!")
+            self.ui.jet_button.setEnabled(True)
+            self.ui.jet_button.clicked.connect(self.finish_game)
+            for i in range(6):
+                getattr(self.ui, "area_%s_button" % (i + 1)).setText(self.world.areas[i])
+                getattr(self.ui, "area_%s_button" % (i + 1)).setEnabled(False)
+        else:
+            self.ui.jet_button.setText("Jet!")
+            self.ui.jet_button.setEnabled(False)
+            for i in range(6):
+                getattr(self.ui, "area_%s_button" % (i + 1)).setText(self.world.areas[i])
+                on = True
+                if self.world.areas[i] == self.world.current_area:
+                    on = False
+                getattr(self.ui, "area_%s_button" % (i + 1)).setEnabled(on)
+
+    def toggle_buttons(self):
+        """Toggle all action buttons."""
+        # short functions for setting button states
+        def lookup_drug(selected):
+            if selected:
+                return [selected.name, common.drugs[selected.name]]
+            else:
+                return None
+
+        dealer = lookup_drug(self.ui.dealer_table.currentItem())
+        trenchcoat = lookup_drug(self.ui.trenchcoat_table.currentItem())
+
+        can_buy = (dealer is not None and
+                   dealer[0] in self.world.dealer.keys() and
+                   self.world.player.cash >= self.world.dealer[dealer[0]] and
+                   self.world.player.space_available() > 0)
+        self.ui.buy_button.setEnabled(can_buy)
+
+        can_sell = (trenchcoat is not None and
+                    trenchcoat[0] in self.world.dealer.keys() and
+                    trenchcoat[0] in self.world.player.drugs().keys())
+        self.ui.sell_button.setEnabled(can_sell)
+
+        can_dump = (trenchcoat is not None and
+                    trenchcoat[0] in self.world.player.drugs().keys())
+        self.ui.dump_button.setEnabled(can_dump)
+
+        can_heal = (self.world.can_afford_hospital() and
+                    self.world.player.is_damaged())
+        self.ui.hospital_button.setEnabled(can_heal)
+
     def update(self):
         """Refresh all widgets with update values."""
         # name
@@ -151,6 +201,7 @@ class MainWindow():
         self.ui.loan_lcd.display(self.world.player.loan)
 
         # weapon
+        # TODO: make a function
         weapon, ammo = self.world.player.weapon
         if weapon is not None:
             pretty_name = common.weapons[weapon]["name"]
@@ -158,24 +209,44 @@ class MainWindow():
         else:
             self.ui.weapon_equipped.setText("Unarmed")
 
-        # dealer
+        self.toggle_buttons()
         self.populate_dealer()
-        # trenchcoat
         self.populate_trenchcoat()
-
-        # areas
         self.update_areas()
+        self.render_log()
+
+        if not self.world.player.is_alive():
+            self.finish_game()
+
+    def doubleclick_buy(self):
+        if self.ui.buy_button.isEnabled(): self.do_transact("Buy")
+
+    def doubleclick_sell(self):
+        if self.ui.sell_button.isEnabled(): self.do_transact("Sell")
 
     def populate_dealer(self):
         """Populate dealer table with drugs on offer."""
-        # TODO: sort alphabetically
         self.ui.dealer_table.setRowCount(len(self.world.dealer.keys()))
         drugs_sorted = sorted(self.world.dealer.keys())
         row = 0
         for name in drugs_sorted:
             pretty_name = common.drugs[name]["name"]
             name_cell = DrugWidget(pretty_name, name)
-            price_cell = DrugWidget(str(self.world.dealer[name]), name)
+            price = self.world.dealer[name]
+
+            if name in self.world.last_prices.keys():
+                old_price = self.world.last_prices[name]
+                if price > old_price:
+                    name_icon = ":/glyph/icons/glyphicons-219-circle-arrow-top.png"
+                elif price < old_price:
+                    name_icon = ":/glyph/icons/glyphicons-220-circle-arrow-down.png"
+                else:
+                    name_icon = ":/glyph/icons/glyphicons-192-circle-minus.png"
+            else:
+                name_icon = ":/glyph/icons/glyphicons-192-circle-minus.png"
+            name_cell.setIcon(QIcon(name_icon))
+
+            price_cell = DrugWidget(str(price), name)
             price_cell.setTextAlignment(QtCore.Qt.AlignCenter)
             self.ui.dealer_table.setItem(row, 0, name_cell)
             self.ui.dealer_table.setItem(row, 1, price_cell)
@@ -200,17 +271,14 @@ class MainWindow():
         # max space label
         self.ui.max_drugs_label.setText("%i/%i" % (self.world.player.total_drugs(),
                                                    self.world.player.trenchcoat["max"]))
-
-    def add_log(self, message):
-        self.log.append(message)
-        self.render_log()
-
-    def clear_log(self):
-        self.log = []
+        if self.world.player.total_drugs() == self.world.player.trenchcoat["max"]:
+            self.ui.max_drugs_label.setStyleSheet("color: red;")
+        else:
+            self.ui.max_drugs_label.setStyleSheet("color: black;")
 
     def render_log(self):
         html = "<html><body>"
-        for msg in self.log:
+        for msg in self.world.log:
             html = html + msg
-        html = html + "</body></html>"
+            html = html + "</body></html>"
         self.ui.action_log_textedit.setHtml(html)

@@ -1,50 +1,46 @@
-* Tasks [1/24]
-** TODO World save/load methods
+* Tasks [1/23]
+** TODO copy properties to all high score tables
+** TODO can't hold button on finance spinboxes?
+** TODO cop count should affect hit rate and run chance
+** TODO show heal cost
+** TODO update all tooltips
 ** TODO Events
-** TODO new player dialog
+*** TODO police dogs chased you for X blocks
+chance to lose drugs
+*** TODO custom bust/boom messages per drug
+*** TODO new events, hint a few different drugs for a future bust
+*** TODO double events from old lady and random
+** TODO Enter at new game to submit
+** TODO events with yes/no input
+** TODO can't buy drug after a bust without much cash
+maybe calculating it from wrong price??
+** TODO running from cops is too easy
+** TODO new dialog, change exit game to cancel when from menu?
 ** TODO World tests
-** TODO toggle max button
-** TODO drug prices
-mechanic should include some prices remaining the same between travel
+** TODO remove help button
 ** TODO kidneys
-** TODO lcd displays in finances screen
-** TODO sort drug list tables before populate
-** TODO transact dialog minimum
+** TODO sort trenchcoat list tables before populate
+** TODO sort world list
 ** TODO If sort on and buy, hilighted select changes
-** TODO Drug name exception class
-** TODO buy button check if can buy at all
 ** TODO Show interest rate somewhere
-** TODO can't afford message when buying
-** TODO error when double click sell drug dealer doesn't have
-just do nothin
-** DONE Add day interest on loan when first taking out
-CLOSED: [2014-11-24 Mon 14:21]
-** TODO Logging
 ** TODO Move all special values to a common.config
-** TODO Separate world class to file
-** TODO Print world
-** TODO Console client?
+** TODO events from hospital visits
+** TODO loans have due dates
 ** TODO Average drug price
 Adding a new drug to trenchcoat should combine/average last recorded price
-** TODO Next turn method on player
-Can do stuff like health regen, loan
 * World
 ** Days
 - Days until game ends
 - 1 day = 1 turn
-- At end, score is calculated from amount of cash/savings (weapons?)
+- At end, score is calculated from amount of cash/savings
 ** Loan shark
 - Player starts with a loan at the beginning to be paid off
 - Loans are high interest
 - Loans give health penalties (broken legs) when too high
-- (OPT) Can be accessed from only 1 area
 ** Bank
 - Safe place to deposit cash
-- (OPT) Can be accessed from only 1 area
-- (OPT) Allow safer loans
 ** Hospital
 - Heal player for money
-- (OPT) Only accessible from 1 area
 ** Weapons
 - Buy weapons to defend from cop encounters
 - (OPT) This could be extended to more generic "items" which give passives?
